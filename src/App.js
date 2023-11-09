@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Nav from './components/navbar';
 import Home from './components/Home';
@@ -14,6 +14,7 @@ import RegistrationForm from './components/RegistrationForm';
 import UploadCSV from './components/uploadAllowedUser';
 
 function App() {
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   return (
     <BrowserRouter>
       <div className="bg-slate-900">
@@ -21,15 +22,15 @@ function App() {
         
       </div>
       <div className="flex" >
-      <LeftNavbar/>
-      {/* Your main content goes here */}
+      {isLoggedIn && <LeftNavbar />}
+      
       <Routes>
         <Route path="/Home" element={<Home />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/events" element={<MyEvents />} />
         <Route path="/profileCard" element={<UserProfileCard />} />
         <Route path="/profileManager" element={<ProfileManager />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setisLoggedIn={setisLoggedIn} />} />
         <Route path="/signUp" element={<SignUpPage />} />
         <Route path="/RegistrationForm" element={<RegistrationForm />} />
         <Route path="/dashboard" element={<HomePage />} />

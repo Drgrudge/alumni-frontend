@@ -1,7 +1,47 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState }  from 'react';
+import { Link, useNavigate  } from 'react-router-dom';
+import axios from 'axios';
 
-const LoginPage = () => {
+const LoginPage = ({ isLoggedIn, setisLoggedIn }) => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  // const handleSignUp = async () => {
+  
+  //   try {
+  //     // Send a POST request to your server's registration endpoint
+  //     const response = await axios.post('http://localhost:5000/login', formData);
+  
+  //     console.log(response.data);
+
+  //     setisLoggedIn(true);
+
+  //     navigate('/');
+  //      // Assuming the server sends a JSON response
+  
+  //     // Handle the response (e.g., show a success message or redirect to login)
+  //   } catch (error) {
+  //     // Handle any errors (e.g., show an error message)
+  //     console.error('Error during signup:', error);
+  //   }
+  // };
+
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/login', formData);
+      console.log(response); // Log the entire response object
+  
+      setisLoggedIn(true);
+      navigate('/');
+    } catch (error) {
+      console.error('Error during signup:', error);
+    }
+  };
+  
+  
   return (
     <section className="h-screen w-full flex justify-center items-center">
       <div className="w-full flex">
@@ -37,6 +77,8 @@ const LoginPage = () => {
       className="input w-full"
       id="email"
       placeholder="Email address"
+      value={formData.email}
+      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
     />
   </div>
   <div className="mb-4">
@@ -45,6 +87,8 @@ const LoginPage = () => {
       className="input w-full"
       id="password"
       placeholder="Password"
+      value={formData.password}
+      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
     />
   </div>
 
@@ -57,7 +101,7 @@ const LoginPage = () => {
   </div>
 
   <div className="text-center md:text-left">
-    <button className="mb-4 btn-login bg-blue-600 hover:bg-blue-900 text-white w-full rounded-lg">Login</button>
+    <button className="mb-4 btn-login bg-blue-600 hover:bg-blue-900 text-white w-full rounded-lg" onClick={handleSignUp}>Login</button>
     <p className="text-sm font-semibold mt-2 text-white">
       Don't have an account?{' '}
       <Link to="/signup" className="text-blue-600 hover:text-blue-900">Register</Link>
